@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
-<!-- Skylar N. SenningIntroduction to ProgrammingProject 2
-September 25, 2012-->
+<!-- Skylar N. SenningIntroduction to ProgrammingProject 3
+Oct 14, 2012-->
 <html>		
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -15,123 +15,57 @@ September 25, 2012-->
     			P { text-align: center }		
 		</style>		
 			<script type="text/JavaScript">
-				var NORTH = 1;
-				var NORTH_EAST = 1.1;
-				var NORTH_WEST = 1.2;
-				var SOUTH = 2;
-				var EAST  = 3;
-				var WEST  =	4;
-				var direction;
-				var score= 0;
-				var North= new Boolean(true);			
-				var East= new Boolean(true);
-				var South= new Boolean(true);
-				var West= new Boolean(true);
-			
-			function gameLocation(direction) {
-       			if (direction === 1) {
-          			updateText("Moving North");
-				} else if (direction === 1.1) {
-					updateText("Moving North East");
-				} else if (direction === 1.2) {
-					updateText("Moving North West");
-       			} else if (direction === 2) {
-          			updateText("Moving South");          
-       			} else if (direction === 3) {
-          			updateText("Moving East");
-				} else if (direction === 4) {
-					updateText("Moving West"); 
+				var NORTH 		= 1;			//Global varialbes to figure out dirrection 
+				var NORTH_EAST 	= 1.1;
+				var NORTH_WEST 	= 1.2;
+				var SOUTH 		= 2;
+				var EAST  		= 3;
+				var WEST  		= 4;
+				var path; 
+				var score 		= 0;
+				var North 		= true;
+				var North_east  = true;
+				var North_west	= true;			
+				var East		= true;
+				var South		= true;
+				var West		= true;
+							
+				
+				function gameLocation(path) {    //Location notes from lab to track users game location
+       			if (path === 1) {
+          			updateLocation("Heading North");
+				} else if (path === 1.1) {
+					updateLocation("Heading North East");
+				} else if (path === 1.2) {
+					updateLocation("Heading North West");
+       			} else if (path === 2) {
+          			updateLocation("Heading South");          
+       			} else if (path === 3) {
+          			updateLocation("Heading East");
+				} else if (path === 4) {
+					updateLocation("Heading West"); 
+				} else { 
+					updateLocation("NOT A VALID PATH! GO BACK!");
 				}
-			}			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+				
+			}
 						
-			
-			
-			function north_button_heart_of_island() {
-				var message= "You are traveling into the heart of the island! Dense jungles, and dangerous terrian lays ahead.";
-				updateText(message);		
-				gameLocation(NORTH);
-								
-				if (North == true) {
-					score = score + 5;
-					North = false;
-				
-				}
-				else if (North == false){
-					score= score + 0;			
-					}
-			}
-			function north_east_path(){
-				var message = "You find a path which leads into the island....maybe you are not alone!";
-				updateText(message);
-				gameLocation(NORTH_EAST);
-			}
-			function north_west_cabin(){
-				var message = "A little ways inland you find a small cabin with lots of supplys.";
-				updateText(message);
-				gameLocation(NORTH_WEST);
-			}		
-			function east_button_down_beach() {
-				var message = "You are heading down the beach towards a cluster of palm trees.";				
-				updateText(message);
-				gameLocation(EAST);
-				if (East === true) {
-					score = score + 5;
-					East = false;
-				
-				}
-				else if (East == false){
-					score= score + 0;			
-					}
-			}
-			function south_button_ocean() {
-				var message = "You turn around and all you can see is the vast ocean with no boats in sight.";
-				// var message= "Not even the pure white sand and aqua blue water can keep sadness from taking over, because you know that you are alone";
-				updateText(message);			
-				gameLocation(SOUTH);
-				if (South === true) {
-					score = score + 5;
-					South = false;
-				
-				}
-				else if (South === false){
-					score= score + 0;			
-					}
-			}
-			function west_button_beach() {
-				var message= "After walking down the west side of the island you come across a run down shack.";
-				updateText(message); 
-				gameLocation(WEST);
-				if (West === true) {
-					score = score + 5;
-					West = false;
-				}
-				else if (West === false){
-					score= score + 0;
-					}					
-			}
-			function btn_click_score() {
-				var message= score
-				updateText(message);
-			}
-			function btn_go_click() {
+			function updateLocation(txt){ 				
+				var ta = document.getElementById("txtLocation");
+           		ta.value = txt + "\n" + ta.value;
+        	}
+
+			function btn_go_click() {						//IF-ELSE to figure out user input 
 				var txt = document.getElementById("txtCommand");
 							
 				if ((txt.value === "N") || (txt.value === "n")) {
 					north_button_heart_of_island()
+				}
+				else if ((txt.value === "NE") || (txt.value === "ne")){ 
+					north_east_path()
+				}
+				else if ((txt.value === "NW") || (txt.value === "nw")){ 
+					north_west_cabin()
 				}
 				else if ((txt.value === "S") || (txt.value === "s")){ 
 					south_button_ocean()
@@ -143,43 +77,120 @@ September 25, 2012-->
 					west_button_beach()
 				}
 				else {
-					updateText("Please enter a valid command"); 
+					updateText("Please enter a valid command: N, NW, NE, S, E, W, n, nw, ne, s, e, w"); 
 				}
 			}
+			function north_button_heart_of_island() {
+				var message= "You are traveling into the heart of the island! Dense jungles, and dangerous terrian lays ahead.";
+				updateText(message);		
+				gameLocation(NORTH);
+				updateLocation(1);				
+				
+				if (North === true) {
+					score = score + 5;
+					North = false;
+					updateText("score : " + score)
+				}
+				else if (North === false){
+					updateText("score : " + score)			
+					}
+			}
+			function north_east_path(){
+				var message = "You find a path which leads into the island....maybe you are not alone!";
+				updateText(message);
+				gameLocation(NORTH_EAST);
+				updateLocation(1.1);
+				
+				if (North_east === true) {
+					score = score + 5;
+					North_east = false;
+					updateText("score : " + score)
+				}
+				else if (North_east === false){
+					updateText("score : " + score)			
+					}			
+			}
+			function north_west_cabin(){
+				var message = "A little ways inland you find a small cabin with lots of supplys. You find : Hammer, Water Container, Rope, 				   Axe, Gun Powder";
+				updateText(message);
+				gameLocation(NORTH_WEST);
+				updateLocation(1.2)
+				
+				if (North_west === true) {
+					score = score + 5;
+					North_west = false;
+					updateText("score : " + score)
+				}
+				else if (North_west === false){
+					updateText("score : " + score)			
+					}			
+			}		
+			function east_button_down_beach() {
+				var message = "You are heading down the beach towards a cluster of palm trees.";				
+				updateText(message);
+				gameLocation(EAST);
+				updateLocation(3);
+				if (East === true) {
+					score = score + 5;
+					East = false;
+					updateText("score : " + score)
+				}
+				else if (East === false){
+					score= score + 0;
+					updateText("score : " + score)			
+				}
+			}
+			function south_button_ocean() {
+				var message = "You turn around and all you can see is the vast ocean with no boats in sight.";
+				// var message= "Not even the pure white sand and aqua blue water can keep sadness from taking over, because you know that you are alone";
+				updateText(message);			
+				gameLocation(SOUTH);
+				updateLocation(2);
+				if (South === true) {
+					score = score + 5;
+					South = false;
+					updateText("score : " + score)
+				}
+				else if (South === false){
+					score = score + 0;
+					updateText("score : " + score)			
+					}
+			}
+			function west_button_beach() {
+				var message = "After walking down the west side of the island you come across a run down shack.";
+				updateText(message); 
+				gameLocation(WEST);
+				updateLocation(4);
+				if (West === true) {
+					score = score + 5;
+					West = false;
+					updateText("score : " + score)
+				}
+				else if (West === false){
+					score= score + 0;
+					updateText("score : " + score)
+				}					
+			}
+			function btn_click_score() {
+				alert(score);
+			}
+			
 			function updateText(message){
-				           		
 				var ta = document.getElementById("txtGame");
            		ta.value = message + "\n" + ta.value;
-        	}
-						
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-					
+        	}			
 		</script>
 	</head>
 	<body>
-		<textarea class="displayed" id="txtGame">You were on vacation in the South Pacific when your small cruise ship developed a mechanical failure and sunk! Only a few people survived along with your self. After floating in a life raft for two days you washed ashore on a deserted island. All you have in the life raft is a compass. The time has come to find food and water. 	Decide whether you want to travel North, South East or West. Choose wisely because the island is uncharted. If you get hurt no one coming to your rescue! 		--May the odds be ever in your favor! 		</textarea>
-		
+		<textarea class="displayed" id = "txtGame">You were on vacation in the South Pacific when your small cruise ship developed a mechanical failure and sunk! Only a few people survived along with your self. After floating in a life raft for two days you washed ashore on a deserted island. All you have in the life raft is a compass. The time has come to find food and water. 	Decide whether you want to travel North, South East or West. Choose wisely because the island is uncharted. If you get hurt no one coming to your rescue! 		--May the odds be ever in your favor! 		</textarea>
+		<textarea class = "displayed" id = "txtLocation">
+		</textarea> 
 		<br>
 		<p>Enter Command</p>
-		<input class= "displayed" type="text" id="txtCommand">
-		<input class= "displayed" type="button"
-				value="Go"
-				onclick="btn_go_click();">
+		<input class = "displayed" type = "text" id = "txtCommand">
+		<input class = "displayed" type = "button"
+				value = "Go"
+				onclick = "btn_go_click();">
 		<br>
 		<img class="displayed" src = "http://www.art-and-home.net/media/10/a2079291247bcb0a2d5db4_m.jpg" width = "200" height="200" alt= "photo" />
 		<br>
